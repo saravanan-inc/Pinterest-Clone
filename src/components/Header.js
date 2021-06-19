@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PinterestIcon from "@material-ui/icons/Pinterest";
 import styled from "styled-components";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,17 +8,23 @@ import TextsmsIcon from "@material-ui/icons/Textsms";
 import FaceIcon from "@material-ui/icons/Face";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 
-function Header() {
+function Header(props) {
+  const [input, setInput] = useState("");
+
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+    props.onSubmit(input);
+  };
   return (
     <Wrapper>
       <LogoWrapper>
         <PinterestIcon />
       </LogoWrapper>
       <HomePageButton>
-        <a href="/">Homepage</a>
+        <a href="/">Home</a>
       </HomePageButton>
       <FollowingButton>
-        <a href="/">Following</a>
+        <a href="/">Today</a>
       </FollowingButton>
       <SearchWrapper>
         <SearchBarWrapper>
@@ -26,8 +32,8 @@ function Header() {
             <SearchIcon />
           </IconButton>
           <form>
-            <input type="text" />
-            <button type="submit"></button>
+            <input type="text" onChange={(e) => setInput(e.target.value)} />
+            <button type="submit" onClick={onSearchSubmit}></button>
           </form>
         </SearchBarWrapper>
       </SearchWrapper>
@@ -56,8 +62,9 @@ const Wrapper = styled.div`
   padding: 12px 4px 4px 16px;
   background-color: white;
   color: black;
+  @media (min-width: 768px) {
+  }
 `;
-
 const LogoWrapper = styled.div`
   padding-right: 10px;
   .MuiSvgIcon-root {
@@ -69,17 +76,16 @@ const LogoWrapper = styled.div`
 
 const HomeButtons = styled.div`
   display: flex;
+  height: 48px;
+  min-width: 77px;
   align-items: center;
   justify-content: center;
   border-radius: 24px;
-  min-width: 123px;
-  height: 48px;
   cursor: pointer;
-  margin: 0px 5px;
 `;
 
 const HomePageButton = styled(HomeButtons)`
-  background-color: rgb(17, 17, 17);
+  background-color: black;
   a {
     text-decoration: none;
     color: white;
@@ -91,7 +97,7 @@ const FollowingButton = styled(HomeButtons)`
   background-color: white;
   a {
     text-decoration: none;
-    color: rgb(17, 17, 17);
+    color: black;
     font-weight: 700;
   }
   :hover {
@@ -107,12 +113,13 @@ const SearchBarWrapper = styled.div`
   background-color: #efefef;
   display: flex;
   height: 48px;
-  min-width: 100%;
+  width: 100%;
   border-radius: 50px;
   border: none;
-  padding-left: 5px;
+  padding-left: 10px;
 
   form {
+    display: flex;
     flex: 1;
   }
 
@@ -133,6 +140,11 @@ const SearchBarWrapper = styled.div`
   }
 `;
 
-const IconsWrapper = styled.div``;
+const IconsWrapper = styled.div`
+  margin-left: 10px;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
 
 export default Header;
